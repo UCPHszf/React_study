@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+<script src="../js/prop-types.js"></script>
+<!--
+    Name of the component should start with uppercase
+-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/babel">
+        function Welcome(props) {
+            return <h1>Hello,{props.name}</h1>
+        }
+
+        ReactDOM.render(<Welcome name="hsz921"/>, document.getElementById("fc_1"))
+
+        /*
+            1.functional component
+            procedure:
+                (1)Calling the render function,and pass <Welcome ... /> as parameter
+                (2)React calls Welcome component,and pass {name:xxx} as props
+                (3)Welcome component returns Hello,hsz921 as value
+                (4)React DOM update dom to Hello,hsz921
+        */
+        class Simple_Weather extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {isHot: false, isWindy: true}
+            }
+
+            static propTypes = {
+                reporter_name: PropTypes.string.isRequired
+            }
+
+            static defaultProps = {
+                reporter_name: "hsz923"
+            }
+
+            ref_recorder_id = React.createRef()
+
+            render() {
+                const {isHot, isWindy} = this.state
+                return <div>
+                    <h1 onClick={this.changeWeather}>Today's weather is {isHot ? 'hot' : 'cool'}</h1>
+                    <span>  reporter:{this.props.reporter_name}</span>
+                    <input onBlur={this.showRecorderID} ref={this.ref_recorder_id} type="text"
+                           name="recorder_id" placeholder="recorder id"/>
+                    <input onChange={this.saveRecorderName} type="text" name="recorder_name"
+                           placeholder="recorder name"/>
+                </div>
+
+            }
+
+            showRecorderID = () => {
+                alert(this.ref_recorder_id.current.value)
+            }
+
+            changeWeather = () => {
+                const isHot = this.state.isHot
+                this.setState({isHot: !isHot})
+            }
+
+            saveRecorderName = (event) => {
+                this.setState({recorder_name: event.target.value})
+                console.log(this.state)
+            }
+        }
+
+        ReactDOM.render(<Simple_Weather reporter_name="hsz921"/>, document.getElementById("tc_1"))
+        /*
+           2.class component
+            1).This in component is the instance object
+            2).Data in state should be updated by setState
+            3).Change the direction of this:
+                i.Using bind.Example:this.func = this.func.bind(this)
+                ii.Using arrow function.Example:func = ()=>{}
+
+            4)Three property of class component:
+                i.state
+                   React regards component as a state machine.In react,developer just need to update the state and UI
+                   would be rendered by new state
+
+                   update state:setState
+
+                   init: initialize in constructor or add the property state in component directly
+
+                ii.props
+                    Unlike state which is the state of component its own,props is the data from outer scope.
+
+                    By parameter in constructor we can fetch props
+
+                    We can define propTypes and defaultTypes to set the rule and default value for props
+
+                iii.refs
+                    We can visit the element in the virtual dom by refs.
+
+             5)event
+                We can use event.target to fetch the DOM object where the event take place,thereby decrease the usage
+                of ref
+         */
+    </script>
+</head>
+<body>
+<div id="fc_1"></div>
+<div id="tc_1"></div>
+</body>
+</html>
