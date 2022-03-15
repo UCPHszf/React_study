@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .title {
+            background-color: orange;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<!--
+    1.When using JS expression in label we should use {} to wrap it
+    2.When specify the class of the style,use className rather than class
+    3.For inline style,we should define like this form:style={{key:value}}
+    4.For virtual DOM,there can only be one root tag
+    5.Tag should be closure
+    6.If the tag in virtual DOM starts with lowercase,then it would be converted to the corresponding tag in html;if
+    starting with uppercase,then it would render React component;if there are no corresponding result in both situations,
+    an error would be reported.
+-->
+
+<body>
+<div id="test"></div>
+<div id="title"></div>
+<div id="arr"></div>
+<script type="text/babel">
+    const text = "Hello,React!"
+    const title = "Title"
+    //rule 1
+    const VDOM = <h1>{text}</h1>
+    //rule 2,3
+    const VDOM2 = <h2 className="title"><span style={{fontSize: '29px'}}>{title}</span></h2>
+    ReactDOM.render(VDOM, document.getElementById('test'))
+    ReactDOM.render(VDOM2, document.getElementById('title'))
+
+    const arr = [
+        <h1>小丞</h1>,
+        <h2>同学</h2>,
+    ];
+    ReactDOM.render(
+        <div>{arr}</div>,
+        document.getElementById('arr')
+    );
+</script>
+</body>
+</html>
